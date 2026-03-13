@@ -92,13 +92,13 @@ public class SinSeriesTest {
   }
 
   @Test
-  @DisplayName("sin(+∞) = NaN")
+  @DisplayName("sin(+eps) = NaN")
   void testSinPositiveInfinity() {
     assertTrue(Double.isNaN(SinSeries.sin(Double.POSITIVE_INFINITY, DEFAULT_N)));
   }
 
   @Test
-  @DisplayName("sin(-∞) = NaN")
+  @DisplayName("sin(-eps) = NaN")
   void testSinNegativeInfinity() {
     assertTrue(Double.isNaN(SinSeries.sin(Double.NEGATIVE_INFINITY, DEFAULT_N)));
   }
@@ -106,7 +106,7 @@ public class SinSeriesTest {
   //Малые значения около 0
 
   @ParameterizedTest
-  @DisplayName("Малые значения: sin(x) ≈ x при x -> 0")
+  @DisplayName("Малые значения: sin(x) = x при x -> 0")
   @ValueSource(doubles = {0.001, 0.0001, 0.00001, 0.000001, -0.001, -0.0001, -0.00001, -0.000001})
   void testSmallValues(double x) {
     double expected = Math.sin(x);
@@ -164,7 +164,7 @@ public class SinSeriesTest {
   //Сетка значений
 
   @Test
-  @DisplayName("Сетка: от -2π до 2π с шагом 0.1")
+  @DisplayName("Сетка: от -2п до 2п с шагом 0.1")
   void testGridValues() {
     double step = 0.1;
     double start = -2 * Math.PI;
@@ -211,7 +211,7 @@ public class SinSeriesTest {
   }
 
   @ParameterizedTest
-  @DisplayName("Сдвиг на π: sin(x + п) = -sin(x)")
+  @DisplayName("Сдвиг на п: sin(x + п) = -sin(x)")
   @ValueSource(doubles = {0.0, 0.5, 1.0, Math.PI / 4, 2.0, 5.0})
   void testPiShift(double x) {
     double sinX = SinSeries.sin(x, DEFAULT_N);
