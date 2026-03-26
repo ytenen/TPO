@@ -22,8 +22,8 @@ public class F1 extends AbstractTabularFunction {
         this.mode = mode;
     }
 
-    public F1(MathFunction sec, MathFunction tan, MathFunction csc, MathFunction sin, MathFunction cot, CalculationMode mode,
-              Map<Double, Double> stubTable) {
+    public F1(MathFunction sec, MathFunction tan, MathFunction csc, MathFunction sin, MathFunction cot,
+              CalculationMode mode, Map<Double, Double> stubTable) {
         super(stubTable);
         this.sec = sec;
         this.tan = tan;
@@ -35,7 +35,11 @@ public class F1 extends AbstractTabularFunction {
 
     @Override
     public double calculate(double x, double epsilon) {
-        if (!(x < 0.0) || Double.isNaN(x) || Double.isInfinite(x)) {
+        if (Double.isNaN(x) || Double.isInfinite(x) || epsilon <= 0.0 || Double.isNaN(epsilon)) {
+            return Double.NaN;
+        }
+
+        if (x > 0.0) {
             return Double.NaN;
         }
 
@@ -45,7 +49,12 @@ public class F1 extends AbstractTabularFunction {
         double sinX = value(sin, x, epsilon);
         double cotX = value(cot, x, epsilon);
 
-        if (Double.isNaN(secX) || Double.isNaN(tanX) || Double.isNaN(cscX) || Double.isNaN(sinX) || Double.isNaN(cotX)) {
+        if (Double.isNaN(secX) || Double.isNaN(tanX) || Double.isNaN(cscX)
+                || Double.isNaN(sinX) || Double.isNaN(cotX)) {
+            return Double.NaN;
+        }
+
+        if (Math.abs(secX) < epsilon) {
             return Double.NaN;
         }
 
@@ -54,7 +63,7 @@ public class F1 extends AbstractTabularFunction {
         double numerator = (secSquared + tanDivSec) - cscX - sinX;
         double denominator = cotX + secX;
 
-        if (denominator == 0.0) {
+        if (Math.abs(denominator) < epsilon) {
             return Double.NaN;
         }
 

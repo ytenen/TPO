@@ -18,10 +18,15 @@ public class Sec extends AbstractTabularFunction {
 
     @Override
     public double calculate(double x, double epsilon) {
+        if (cos == null || Double.isNaN(epsilon) || epsilon <= 0.0) {
+            return Double.NaN;
+        }
+
         double cosX = cos.calculate(x, epsilon);
         if (Double.isNaN(cosX) || Math.abs(cosX) < epsilon) {
             return Double.NaN;
         }
+
         return 1.0 / cosX;
     }
 }

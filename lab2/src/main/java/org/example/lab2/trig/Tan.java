@@ -21,11 +21,17 @@ public class Tan extends AbstractTabularFunction {
 
     @Override
     public double calculate(double x, double epsilon) {
+        if (sin == null || cos == null || Double.isNaN(epsilon) || epsilon <= 0.0) {
+            return Double.NaN;
+        }
+
         double sinX = sin.calculate(x, epsilon);
         double cosX = cos.calculate(x, epsilon);
+
         if (Double.isNaN(sinX) || Double.isNaN(cosX) || Math.abs(cosX) < epsilon) {
             return Double.NaN;
         }
+
         return sinX / cosX;
     }
 }

@@ -32,25 +32,35 @@ public class F2 extends AbstractTabularFunction {
 
     @Override
     public double calculate(double x, double epsilon) {
-        if (!(x > 0.0) || Double.isNaN(x) || Double.isInfinite(x)) {
+        if (Double.isNaN(x) || Double.isInfinite(x) || epsilon <= 0 || Double.isNaN(epsilon)) {
+            return Double.NaN;
+        }
+
+
+
+        if (x <= 0.0) {
             return Double.NaN;
         }
 
         double lnX = value(ln, x, epsilon);
         double log5X = value(log5, x, epsilon);
-        double log10A = value(log10, x, epsilon);
-        double log10B = value(log10, x, epsilon);
+        double log10X = value(log10, x, epsilon);
         double log3X = value(log3, x, epsilon);
 
-        if (Double.isNaN(lnX) || Double.isNaN(log5X) || Double.isNaN(log10A) || Double.isNaN(log10B) || Double.isNaN(log3X)) {
+        if (Double.isNaN(lnX) || Double.isNaN(log5X) || Double.isNaN(log10X) || Double.isNaN(log3X)) {
             return Double.NaN;
         }
 
-        double leftFraction = (lnX + log5X) / log10A;
-        double leftSum = leftFraction + log10A + log3X;
-        double right = log10A / log10B;
+        if (Math.abs(log10X) < epsilon || Math.abs(log3X) < epsilon) {
+            return Double.NaN;
+        }
 
-        return leftSum - right;
+        double part1 = (lnX + log5X) / log10X;
+        double part2 = part1 / log10X;
+        double left = part2 + log3X;
+        double right = log10X / log3X;
+
+        return left - right;
     }
 
     private double value(MathFunction function, double x, double epsilon) {

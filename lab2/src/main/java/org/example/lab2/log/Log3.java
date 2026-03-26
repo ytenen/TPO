@@ -10,24 +10,27 @@ public class Log3 extends AbstractTabularFunction {
 
     public Log3(Ln ln, double epsilonForConstant) {
         this.ln = ln;
-        this.ln3 = ln.calculate(3.0, epsilonForConstant);
+        this.ln3 = ln == null ? Double.NaN : ln.calculate(3.0, epsilonForConstant);
     }
 
     public Log3(Ln ln, double epsilonForConstant, Map<Double, Double> stubTable) {
         super(stubTable);
         this.ln = ln;
-        this.ln3 = ln.calculate(3.0, epsilonForConstant);
+        this.ln3 = ln == null ? Double.NaN : ln.calculate(3.0, epsilonForConstant);
     }
 
     @Override
     public double calculate(double x, double epsilon) {
-        if (x <= 0.0 || Double.isNaN(x) || Double.isInfinite(x)) {
+        if (ln == null || x <= 0.0 || Double.isNaN(x) || Double.isInfinite(x)
+                || epsilon <= 0.0 || Double.isNaN(epsilon)) {
             return Double.NaN;
         }
+
         double lnX = ln.calculate(x, epsilon);
-        if (Double.isNaN(lnX) || Double.isNaN(ln3) || ln3 == 0.0) {
+        if (Double.isNaN(lnX) || Double.isNaN(ln3) || Math.abs(ln3) < epsilon) {
             return Double.NaN;
         }
+
         return lnX / ln3;
     }
 }

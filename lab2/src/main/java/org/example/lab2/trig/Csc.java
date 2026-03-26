@@ -18,10 +18,15 @@ public class Csc extends AbstractTabularFunction {
 
     @Override
     public double calculate(double x, double epsilon) {
+        if (sin == null || Double.isNaN(epsilon) || epsilon <= 0.0) {
+            return Double.NaN;
+        }
+
         double sinX = sin.calculate(x, epsilon);
         if (Double.isNaN(sinX) || Math.abs(sinX) < epsilon) {
             return Double.NaN;
         }
+
         return 1.0 / sinX;
     }
 }
