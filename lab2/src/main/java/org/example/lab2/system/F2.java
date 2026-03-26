@@ -20,15 +20,6 @@ public class F2 extends AbstractTabularFunction {
         this.mode = mode;
     }
 
-    public F2(MathFunction ln, MathFunction log5, MathFunction log10, MathFunction log3, CalculationMode mode,
-              Map<Double, Double> stubTable) {
-        super(stubTable);
-        this.ln = ln;
-        this.log5 = log5;
-        this.log10 = log10;
-        this.log3 = log3;
-        this.mode = mode;
-    }
 
     @Override
     public double calculate(double x, double epsilon) {
