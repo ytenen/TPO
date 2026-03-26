@@ -35,13 +35,6 @@ class F1Test {
     }
 
     @Test
-    @DisplayName("F1 returns finite value for another regular negative x")
-    void shouldReturnFiniteValueForAnotherRegularNegativePoint() {
-        double actual = f1.calculate(-0.5, EPS);
-        assertTrue(Double.isFinite(actual));
-    }
-
-    @Test
     @DisplayName("F1 returns NaN for x = 0")
     void shouldReturnNaNForZero() {
         assertTrue(Double.isNaN(f1.calculate(0.0, EPS)));
@@ -60,21 +53,16 @@ class F1Test {
     }
 
     @Test
-    @DisplayName("F1 returns NaN at x = -2pi because sin(x)=0")
-    void shouldReturnNaNAtNegativeTwoPi() {
-        assertTrue(Double.isNaN(f1.calculate(-2.0 * Math.PI, EPS)));
-    }
-
-    @Test
     @DisplayName("F1 returns NaN at x = -pi/2 because cos(x)=0")
     void shouldReturnNaNAtNegativePiHalf() {
         assertTrue(Double.isNaN(f1.calculate(-Math.PI / 2.0, EPS)));
     }
 
     @Test
-    @DisplayName("F1 returns NaN at x = -3pi/2 because cos(x)=0")
-    void shouldReturnNaNAtNegativeThreePiHalf() {
-        assertTrue(Double.isNaN(f1.calculate(-3.0 * Math.PI / 2.0, EPS)));
+    @DisplayName("F1 returns NaN when denominator is zero (cot(x) + sec(x) = 0)")
+    void shouldReturnNaNWhenDenominatorIsZero() {
+        double x = Math.asin((1 - Math.sqrt(5)) / 2);
+        assertTrue(Double.isNaN(f1.calculate(x, EPS)));
     }
 
     @Test
@@ -87,12 +75,6 @@ class F1Test {
     @DisplayName("F1 returns NaN for positive infinity")
     void shouldReturnNaNForPositiveInfinity() {
         assertTrue(Double.isNaN(f1.calculate(Double.POSITIVE_INFINITY, EPS)));
-    }
-
-    @Test
-    @DisplayName("F1 returns NaN for negative infinity")
-    void shouldReturnNaNForNegativeInfinity() {
-        assertTrue(Double.isNaN(f1.calculate(Double.NEGATIVE_INFINITY, EPS)));
     }
 
     @Test

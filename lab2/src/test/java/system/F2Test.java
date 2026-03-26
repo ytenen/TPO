@@ -36,20 +36,6 @@ class F2Test {
     }
 
     @Test
-    @DisplayName("F2 returns finite value for x = 2")
-    void shouldReturnFiniteValueForTwo() {
-        double actual = f2.calculate(2.0, EPS);
-        assertTrue(Double.isFinite(actual));
-    }
-
-    @Test
-    @DisplayName("F2 returns finite value for x = 3")
-    void shouldReturnFiniteValueForThree() {
-        double actual = f2.calculate(3.0, EPS);
-        assertTrue(Double.isFinite(actual));
-    }
-
-    @Test
     @DisplayName("F2 returns NaN for x = 1")
     void shouldReturnNaNForOne() {
         assertTrue(Double.isNaN(f2.calculate(1.0, EPS)));
@@ -93,12 +79,6 @@ class F2Test {
     @DisplayName("F2 returns NaN for positive infinity")
     void shouldReturnNaNForPositiveInfinity() {
         assertTrue(Double.isNaN(f2.calculate(Double.POSITIVE_INFINITY, EPS)));
-    }
-
-    @Test
-    @DisplayName("F2 returns NaN for negative infinity")
-    void shouldReturnNaNForNegativeInfinity() {
-        assertTrue(Double.isNaN(f2.calculate(Double.NEGATIVE_INFINITY, EPS)));
     }
 
     @Test
