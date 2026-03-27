@@ -16,6 +16,9 @@ import org.example.lab2.trig.Sec;
 import org.example.lab2.trig.Sin;
 import org.example.lab2.trig.Tan;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class Main {
     public static void main(String[] args) {
         double epsilon = 1e-6;
@@ -46,10 +49,38 @@ public class Main {
 
         CsvExporter exporter = new CsvExporter();
         try {
-            exporter.export(system, -5.0, 5.0, 0.1, epsilon, "function-system.csv");
-            System.out.println("CSV exported to function-system.csv");
+            Path outDir = Path.of("csv");
+            Files.createDirectories(outDir);
+
+            export(exporter, sin, -5.0, 5.0, 0.1, epsilon, outDir.resolve("sin.csv").toString());
+            export(exporter, cos, -5.0, 5.0, 0.1, epsilon, outDir.resolve("cos.csv").toString());
+            export(exporter, tan, -5.0, 5.0, 0.1, epsilon, outDir.resolve("tan.csv").toString());
+            export(exporter, cot, -5.0, 5.0, 0.1, epsilon, outDir.resolve("cot.csv").toString());
+            export(exporter, sec, -5.0, 5.0, 0.1, epsilon, outDir.resolve("sec.csv").toString());
+            export(exporter, csc, -5.0, 5.0, 0.1, epsilon, outDir.resolve("csc.csv").toString());
+
+            export(exporter, ln, 0.1, 5.0, 0.1, epsilon, outDir.resolve("ln.csv").toString());
+            export(exporter, log3, 0.1, 5.0, 0.1, epsilon, outDir.resolve("log3.csv").toString());
+            export(exporter, log5, 0.1, 5.0, 0.1, epsilon, outDir.resolve("log5.csv").toString());
+            export(exporter, log10, 0.1, 5.0, 0.1, epsilon, outDir.resolve("log10.csv").toString());
+
+            export(exporter, f1, -5.0, 0.0, 0.1, epsilon, outDir.resolve("f1.csv").toString());
+            export(exporter, f2, 0.1, 5.0, 0.1, epsilon, outDir.resolve("f2.csv").toString());
+
+            export(exporter, system, -5.0, 5.0, 0.1, epsilon, outDir.resolve("function-system.csv").toString());
+            System.out.println("CSV exported");
         } catch (Exception e) {
             System.out.println("CSV export failed: " + e.getMessage());
         }
+    }
+
+    private static void export(CsvExporter exporter,
+                               org.example.lab2.core.MathFunction function,
+                               double from,
+                               double to,
+                               double step,
+                               double epsilon,
+                               String filePath) throws Exception {
+        exporter.export(function, from, to, step, epsilon, filePath);
     }
 }

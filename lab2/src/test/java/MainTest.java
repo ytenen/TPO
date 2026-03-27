@@ -10,14 +10,43 @@ class MainTest {
 
     @Test
     void mainRunsAndProducesCsv() throws Exception {
-        Path file = Path.of("function-system.csv");
+        Path dir = Path.of("csv");
+        Path[] files = new Path[]{
+                dir.resolve("sin.csv"),
+                dir.resolve("cos.csv"),
+                dir.resolve("tan.csv"),
+                dir.resolve("cot.csv"),
+                dir.resolve("sec.csv"),
+                dir.resolve("csc.csv"),
+                dir.resolve("ln.csv"),
+                dir.resolve("log3.csv"),
+                dir.resolve("log5.csv"),
+                dir.resolve("log10.csv"),
+                dir.resolve("f1.csv"),
+                dir.resolve("f2.csv"),
+                dir.resolve("function-system.csv")
+        };
         try {
-            Files.deleteIfExists(file);
+            if (Files.exists(dir)) {
+                for (Path file : files) {
+                    Files.deleteIfExists(file);
+                }
+            }
+            for (Path file : files) {
+                Files.deleteIfExists(file);
+            }
             Main.main(new String[0]);
-            assertTrue(Files.exists(file));
-            assertTrue(Files.size(file) > 0);
+            for (Path file : files) {
+                assertTrue(Files.exists(file));
+                assertTrue(Files.size(file) > 0);
+            }
         } finally {
-            Files.deleteIfExists(file);
+            for (Path file : files) {
+                Files.deleteIfExists(file);
+            }
+            if (Files.exists(dir)) {
+                Files.deleteIfExists(dir);
+            }
         }
     }
 }

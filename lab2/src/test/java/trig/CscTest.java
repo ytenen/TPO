@@ -4,60 +4,50 @@ import org.example.lab2.trig.Csc;
 import org.example.lab2.trig.Sin;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class CscTest {
 
     private static final double EPS = 1e-6;
-    private static final double DELTA = 1e-4;
 
-    private final Sin sin = new Sin();
-    private final Csc csc = new Csc(sin);
+    @Mock
+    private Sin sin;
 
     @Test
-    @DisplayName("csc(pi/2) = 1")
-    void shouldReturnOneForPiHalf() {
-        double actual = csc.calculate(Math.PI / 2.0, EPS);
-        assertEquals(1.0, actual, DELTA);
+    @DisplayName("csc(x) = 1 / sin(x)")
+    void shouldReturnReciprocalOfSin() {
+        Csc csc = new Csc(sin);
+        when(sin.calculate(eq(2.0), eq(EPS))).thenReturn(4.0);
+
+        double actual = csc.calculate(2.0, EPS);
+
+        assertEquals(0.25, actual);
+        verify(sin).calculate(eq(2.0), eq(EPS));
+        verifyNoMoreInteractions(sin);
     }
 
     @Test
-    @DisplayName("csc(-pi/2) = -1")
-    void shouldReturnMinusOneForNegativePiHalf() {
-        double actual = csc.calculate(-Math.PI / 2.0, EPS);
-        assertEquals(-1.0, actual, DELTA);
+    @DisplayName("csc(x) returns NaN when sin(x) is too small")
+    void shouldReturnNaNWhenSinIsTooSmall() {
+        Csc csc = new Csc(sin);
+        when(sin.calculate(eq(2.0), eq(EPS))).thenReturn(EPS / 2.0);
+
+        assertTrue(Double.isNaN(csc.calculate(2.0, EPS)));
     }
 
     @Test
-    @DisplayName("csc(x) is NaN at 0")
-    void shouldReturnNaNAtZero() {
-        double actual = csc.calculate(0.0, EPS);
-        assertTrue(Double.isNaN(actual));
-    }
+    @DisplayName("csc(x) returns NaN when sin(x) is NaN")
+    void shouldReturnNaNWhenSinIsNaN() {
+        Csc csc = new Csc(sin);
+        when(sin.calculate(eq(2.0), eq(EPS))).thenReturn(Double.NaN);
 
-    @Test
-    @DisplayName("csc(x) is NaN at pi")
-    void shouldReturnNaNAtPi() {
-        double actual = csc.calculate(Math.PI, EPS);
-        assertTrue(Double.isNaN(actual));
-    }
-
-    @Test
-    @DisplayName("csc(x) is NaN at -pi")
-    void shouldReturnNaNAtNegativePi() {
-        double actual = csc.calculate(-Math.PI, EPS);
-        assertTrue(Double.isNaN(actual));
-    }
-
-    @Test
-    @DisplayName("csc(x) is odd: csc(-x) = -csc(x)")
-    void shouldBeOddFunction() {
-        double x = 0.5;
-        double positive = csc.calculate(x, EPS);
-        double negative = csc.calculate(-x, EPS);
-
-        assertEquals(-positive, negative, DELTA);
+        assertTrue(Double.isNaN(csc.calculate(2.0, EPS)));
     }
 
     @Test
