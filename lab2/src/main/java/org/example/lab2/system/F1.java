@@ -22,17 +22,6 @@ public class F1 extends AbstractTabularFunction {
         this.mode = mode;
     }
 
-    public F1(MathFunction sec, MathFunction tan, MathFunction csc, MathFunction sin, MathFunction cot,
-              CalculationMode mode, Map<Double, Double> stubTable) {
-        super(stubTable);
-        this.sec = sec;
-        this.tan = tan;
-        this.csc = csc;
-        this.sin = sin;
-        this.cot = cot;
-        this.mode = mode;
-    }
-
     @Override
     public double calculate(double x, double epsilon) {
         if (Double.isNaN(x) || Double.isInfinite(x) || epsilon <= 0.0 || Double.isNaN(epsilon)) {

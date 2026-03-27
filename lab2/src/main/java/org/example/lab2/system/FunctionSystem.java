@@ -16,14 +16,6 @@ public class FunctionSystem extends AbstractTabularFunction {
         this.mode = mode;
     }
 
-    public FunctionSystem(MathFunction f1, MathFunction f2, CalculationMode mode,
-                          Map<Double, Double> stubTable) {
-        super(stubTable);
-        this.f1 = f1;
-        this.f2 = f2;
-        this.mode = mode;
-    }
-
     @Override
     public double calculate(double x, double epsilon) {
         if (Double.isNaN(x) || Double.isInfinite(x) || epsilon <= 0 || Double.isNaN(epsilon)) {
