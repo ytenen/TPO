@@ -15,6 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,8 +32,9 @@ public class FunctionSystemIT {
     @Test
     @DisplayName("Stubbed system should route to left and right branches")
     void shouldWorkAsFullyStubbedSystem() {
-        when(f1Mock.calculate(eq(-1.0), eq(EPS))).thenReturn(10.0);
-        when(f2Mock.calculate(eq(2.0), eq(EPS))).thenReturn(20.0);
+        given(f1Mock.calculate(eq(-1.0), eq(EPS))).willReturn(10.0);
+        given(f2Mock.calculate(eq(2.0), eq(EPS))).willReturn(20.0);
+
         FunctionSystem system = new FunctionSystem(f1Mock, f2Mock, CalculationMode.REAL);
 
         double left = system.calculate(-1.0, EPS);
@@ -40,8 +43,8 @@ public class FunctionSystemIT {
         assertFalse(Double.isNaN(left));
         assertFalse(Double.isNaN(right));
 
-        verify(f1Mock).calculate(eq(-1.0), eq(EPS));
-        verify(f2Mock).calculate(eq(2.0), eq(EPS));
+        then(f1Mock).should().calculate(eq(-1.0), eq(EPS));
+        then(f2Mock).should().calculate(eq(2.0), eq(EPS));
     }
 
     @Test
