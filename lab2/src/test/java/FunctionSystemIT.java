@@ -48,14 +48,14 @@ public class FunctionSystemIT {
     }
 
     @Test
-    @DisplayName("Integration step: F1 with one real module")
+    @DisplayName("F1 with one real module")
     void shouldIntegrateF1StepByStep() {
         Sin realSin = new Sin();
 
-        Sec sec = mock(Sec.class);
-        Tan tan = mock(Tan.class);
-        Csc csc = mock(Csc.class);
-        Cot cot = mock(Cot.class);
+        Sec sec = mock();
+        Tan tan = mock();
+        Csc csc = mock();
+        Cot cot = mock();
 
         double x = -1.0;
         when(sec.calculate(eq(x), eq(EPS))).thenReturn(2.0);
@@ -71,13 +71,13 @@ public class FunctionSystemIT {
     }
 
     @Test
-    @DisplayName("Integration step: F2 with one real module")
+    @DisplayName("F2 with one real module")
     void shouldIntegrateF2StepByStep() {
         Ln realLn = new Ln();
 
-        Log5 log5 = mock(Log5.class);
-        Log10 log10 = mock(Log10.class);
-        Log3 log3 = mock(Log3.class);
+        Log5 log5 = mock();
+        Log10 log10 = mock();
+        Log3 log3 = mock();
 
         double x = 2.0;
         when(log5.calculate(eq(x), eq(EPS))).thenReturn(2.2);
@@ -92,7 +92,7 @@ public class FunctionSystemIT {
     }
 
     @Test
-    @DisplayName("Integration step: fully real F1")
+    @DisplayName("fully real F1")
     void shouldIntegrateRealF1() {
         Sin sin = new Sin();
         Cos cos = new Cos(sin);
@@ -108,7 +108,7 @@ public class FunctionSystemIT {
     }
 
     @Test
-    @DisplayName("Integration step: fully real F2")
+    @DisplayName("fully real F2")
     void shouldIntegrateRealF2() {
         Ln ln = new Ln();
         Log3 log3 = new Log3(ln, EPS);
@@ -122,7 +122,7 @@ public class FunctionSystemIT {
     }
 
     @Test
-    @DisplayName("Integration step: fully real function system")
+    @DisplayName("fully real function system")
     void shouldIntegrateWholeSystem() {
         Sin sin = new Sin();
         Cos cos = new Cos(sin);

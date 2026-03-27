@@ -27,7 +27,7 @@ class TanTest {
 
 
     @Test
-    @DisplayName("tan(x) integration: real sin / mock cos")
+    @DisplayName("real sin / mock cos")
     void shouldCalculateWithRealSinAndMockCos() {
         Tan tan = new Tan(sin, cos);
 
@@ -45,7 +45,7 @@ class TanTest {
     }
 
     @Test
-    @DisplayName("tan(x) integration: mock sin / real cos")
+    @DisplayName(" mock sin / real cos")
     void shouldCalculateWithMockSinAndRealCos() {
         Tan tan = new Tan(sin, cos);
 
@@ -63,11 +63,11 @@ class TanTest {
     }
 
     @Test
-    @DisplayName("tan(x) integration: both mocked but with real-like behavior")
+    @DisplayName("both mocked")
     void shouldCalculateWithBothMocked() {
         Tan tan = new Tan(sin, cos);
 
-        double x = Math.PI / 3; // 60°, tan = √3 ≈ 1.732
+        double x = Math.PI / 3;
         double mockSinValue = Math.sin(x);
         double mockCosValue = Math.cos(x);
         double expected = mockSinValue / mockCosValue;

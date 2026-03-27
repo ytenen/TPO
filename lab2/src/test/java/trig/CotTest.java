@@ -32,7 +32,7 @@ class CotTest {
     }
 
     @Test
-    @DisplayName("cot(x) integration: real cos / mock sin")
+    @DisplayName("real cos / mock sin")
     void shouldCalculateWithRealCosAndMockSin() {
         Cot cot = new Cot(sin, cos);
 
@@ -50,7 +50,7 @@ class CotTest {
     }
 
     @Test
-    @DisplayName("cot(x) integration: mock cos / real sin")
+    @DisplayName(" mock cos / real sin")
     void shouldCalculateWithMockCosAndRealSin() {
         Cot cot = new Cot(sin, cos);
 
@@ -68,11 +68,11 @@ class CotTest {
     }
 
     @Test
-    @DisplayName("cot(x) integration: both mocked but with real-like behavior")
+    @DisplayName(" both mocked ")
     void shouldCalculateWithBothMocked() {
         Cot cot = new Cot(sin, cos);
 
-        double x = Math.PI / 3; // 60°
+        double x = Math.PI / 3;
         double mockSinValue = Math.sin(x);
         double mockCosValue = Math.cos(x);
         double expected = mockCosValue / mockSinValue;
