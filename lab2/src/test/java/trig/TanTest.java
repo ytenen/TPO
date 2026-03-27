@@ -16,6 +16,8 @@ import static org.mockito.Mockito.*;
 class TanTest {
 
     private static final double EPS = 1e-6;
+    private static final double DELTA = 1e-4;
+
 
     @Mock
     private Sin sin;
@@ -23,18 +25,61 @@ class TanTest {
     @Mock
     private Cos cos;
 
+
     @Test
-    @DisplayName("tan(x) = sin(x) / cos(x)")
-    void shouldReturnSinDivCos() {
+    @DisplayName("tan(x) integration: real sin / mock cos")
+    void shouldCalculateWithRealSinAndMockCos() {
         Tan tan = new Tan(sin, cos);
-        when(sin.calculate(eq(1.0), eq(EPS))).thenReturn(2.0);
-        when(cos.calculate(eq(1.0), eq(EPS))).thenReturn(4.0);
 
-        double actual = tan.calculate(1.0, EPS);
+        double x = 2.0;
+        double mockCosValue = 0.5;
+        double expected = Math.sin(x) / mockCosValue;
 
-        assertEquals(0.5, actual);
-        verify(sin).calculate(eq(1.0), eq(EPS));
-        verify(cos).calculate(eq(1.0), eq(EPS));
+        when(cos.calculate(eq(x), eq(EPS))).thenReturn(mockCosValue);
+
+        double actual = tan.calculate(x, EPS);
+
+        assertEquals(expected, actual, DELTA);
+        verify(cos).calculate(eq(x), eq(EPS));
+        verifyNoMoreInteractions(cos);
+    }
+
+    @Test
+    @DisplayName("tan(x) integration: mock sin / real cos")
+    void shouldCalculateWithMockSinAndRealCos() {
+        Tan tan = new Tan(sin, cos);
+
+        double x = 2.0;
+        double mockSinValue = 0.8;
+        double expected = mockSinValue / Math.cos(x);
+
+        when(sin.calculate(eq(x), eq(EPS))).thenReturn(mockSinValue);
+
+        double actual = tan.calculate(x, EPS);
+
+        assertEquals(expected, actual, DELTA);
+        verify(sin).calculate(eq(x), eq(EPS));
+        verifyNoMoreInteractions(sin);
+    }
+
+    @Test
+    @DisplayName("tan(x) integration: both mocked but with real-like behavior")
+    void shouldCalculateWithBothMocked() {
+        Tan tan = new Tan(sin, cos);
+
+        double x = Math.PI / 3; // 60°, tan = √3 ≈ 1.732
+        double mockSinValue = Math.sin(x);
+        double mockCosValue = Math.cos(x);
+        double expected = mockSinValue / mockCosValue;
+
+        when(sin.calculate(eq(x), eq(EPS))).thenReturn(mockSinValue);
+        when(cos.calculate(eq(x), eq(EPS))).thenReturn(mockCosValue);
+
+        double actual = tan.calculate(x, EPS);
+
+        assertEquals(expected, actual, DELTA);
+        verify(sin).calculate(eq(x), eq(EPS));
+        verify(cos).calculate(eq(x), eq(EPS));
         verifyNoMoreInteractions(sin, cos);
     }
 
