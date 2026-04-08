@@ -5,12 +5,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage extends BasePage {
 
     private final By emailInput = By.xpath("//input[@name='login']");
     private final By passwordInput = By.xpath("//input[@type='password']");
     private final By submitButton = By.xpath("//button[@type='submit']");
+    private final By cookieAcceptButton = By.xpath("//a[contains(., 'Accept') or contains(., 'СОГЛАСИТЬСЯ')]");
+
 
     public LoginPage(WebDriver driver) {
         super(driver, TestConfig.EXPLICIT_WAIT);
@@ -50,5 +53,22 @@ public class LoginPage extends BasePage {
 
     public boolean isLoginStillVisible() {
         return !driver.findElements(emailInput).isEmpty();
+    }
+
+    public LoginPage acceptCookiesIfPresent() {
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, java.time.Duration.ofSeconds(3));
+            WebElement cookieButton = shortWait.until(ExpectedConditions.presenceOfElementLocated(cookieAcceptButton));
+
+            if (cookieButton.isDisplayed()) {
+                try {
+                    cookieButton.click();
+                } catch (Exception e) {
+                    jsClick(cookieButton);
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return this;
     }
 }
