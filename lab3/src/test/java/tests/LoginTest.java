@@ -2,6 +2,7 @@ package tests;
 
 import base.BaseTest;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import pages.AccountPage;
 import pages.HomePage;
@@ -10,6 +11,7 @@ import pages.LoginPage;
 public class LoginTest extends BaseTest {
 
     @Test
+    @Order(1)
     void invalidLoginTest() {
 
         LoginPage loginPage = new HomePage(driver)
@@ -25,6 +27,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @Order(2)
     void validLoginTest() {
         String username = "nagibator67_dikiy";
 
