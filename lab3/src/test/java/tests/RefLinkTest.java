@@ -1,0 +1,77 @@
+package tests;
+import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.JavascriptExecutor;
+import pages.LoginPage;
+import utils.CookieHelper;
+
+import java.time.Duration;
+import java.util.*;
+
+public class RefLinkTest {
+  private WebDriver driver;
+  private Map<String, Object> vars;
+  JavascriptExecutor js;
+  @Before
+  public void setUp() {
+    driver = new FirefoxDriver();
+    js = (JavascriptExecutor) driver;
+    vars = new HashMap<String, Object>();
+  }
+  @After
+  public void tearDown() {
+    driver.quit();
+  }
+  @Test
+  public void refLinkTest() throws InterruptedException {
+    driver.get("https://worldoftanks.eu/ru/");
+      driver.manage().window().setSize(new Dimension(1267, 842));
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+      CookieHelper.acceptCookies(driver, wait);
+
+      js.executeScript("window.scrollBy(0,900)");
+      Thread.sleep(3000);
+      js.executeScript("window.scrollTo(0,0)");
+      Thread.sleep(3000);
+
+      driver.findElement(By.xpath("//a[contains(text(),'Войти')]")).click();
+
+      String originalWindow = driver.getWindowHandle();
+
+      for (String windowHandle : driver.getWindowHandles()) {
+          if (!windowHandle.equals(originalWindow)) {
+              driver.switchTo().window(windowHandle);
+              break;
+          }
+      }
+
+      LoginPage loginPage = new LoginPage(driver);
+      loginPage.acceptCookies();
+      loginPage.fillEmail("rosh.28@mail.ru");
+      loginPage.fillPassword("Qfc12erty");
+      loginPage.submit();
+      Thread.sleep(3000);
+    {
+      WebElement element = driver.findElement(By.xpath("//div[@id=\'common_menu\']/div/div/div[4]/a[2]/span"));
+      Actions builder = new Actions(driver);
+      builder.moveToElement(element).perform();
+    }
+      Thread.sleep(3000);
+    driver.findElement(By.xpath("//div[2]/div/ul/li[6]/div/div[2]")).click();
+      Thread.sleep(3000);
+    driver.findElement(By.xpath("//a[contains(text(),\'Пригласить друга\')]")).click();
+      Thread.sleep(3000);
+    js.executeScript("window.scrollBy(0,600)");
+    assertThat(driver.findElement(By.xpath("//section[@id=\'practice\']/div[2]/div/div/div[3]/div/div/div[2]/div/div[3]")).getText(), is("Минимальное количество боёв, которое должно быть у командира для доступа к отправке реферальных ссылок: 600."));
+  }
+}

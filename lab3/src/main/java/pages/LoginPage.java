@@ -1,74 +1,63 @@
 package pages;
 
-import config.TestConfig;
+import config.Cookie;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class LoginPage extends BasePage {
+import java.time.Duration;
+
+public class LoginPage {
+
+    private final WebDriver driver;
+    private final WebDriverWait wait;
+    private final JavascriptExecutor js;
 
     private final By emailInput = By.xpath("//input[@name='login']");
     private final By passwordInput = By.xpath("//input[@type='password']");
     private final By submitButton = By.xpath("//button[@type='submit']");
-    private final By cookieAcceptButton = By.xpath("//a[contains(., 'Accept') or contains(., 'СОГЛАСИТЬСЯ')]");
-
+    private final By usernameLabel = By.xpath("//div[@id='common_menu']/div/div/div/a/div/span");
 
     public LoginPage(WebDriver driver) {
-        super(driver, TestConfig.EXPLICIT_WAIT);
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.js = (JavascriptExecutor) driver;
     }
 
-    public LoginPage waitForLoginForm() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(emailInput));
-        return this;
+    public void acceptCookies() {
+        Cookie.acceptCookies(driver, wait);
     }
 
-    public LoginPage enterEmail(String email) {
-        WebElement field = wait.until(ExpectedConditions.elementToBeClickable(emailInput));
-        field.clear();
-        field.sendKeys(email);
-        return this;
+    public void fillEmail(String email) {
+        WebElement loginField = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(emailInput)
+        );
+        loginField.clear();
+        loginField.sendKeys(email);
     }
 
-    public LoginPage enterPassword(String password) {
-        WebElement field = wait.until(ExpectedConditions.elementToBeClickable(passwordInput));
-        field.clear();
-        field.sendKeys(password);
-        return this;
+    public void fillPassword(String password) {
+        WebElement passwordField = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(passwordInput)
+        );
+        passwordField.clear();
+        passwordField.sendKeys(password);
     }
 
-    public LoginPage clickSubmit() {
-        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(submitButton));
-        button.click();
-        return this;
+    public void submit() {
+        WebElement submit = wait.until(
+                ExpectedConditions.presenceOfElementLocated(submitButton)
+        );
+        js.executeScript("arguments[0].click();", submit);
     }
 
-    public LoginPage login(String email, String password) {
-        enterEmail(email);
-        enterPassword(password);
-        clickSubmit();
-        return this;
-    }
-
-    public boolean isLoginStillVisible() {
-        return !driver.findElements(emailInput).isEmpty();
-    }
-
-    public LoginPage acceptCookiesIfPresent() {
-        try {
-            WebDriverWait shortWait = new WebDriverWait(driver, java.time.Duration.ofSeconds(3));
-            WebElement cookieButton = shortWait.until(ExpectedConditions.presenceOfElementLocated(cookieAcceptButton));
-
-            if (cookieButton.isDisplayed()) {
-                try {
-                    cookieButton.click();
-                } catch (Exception e) {
-                    jsClick(cookieButton);
-                }
-            }
-        } catch (Exception ignored) {
-        }
-        return this;
+    public String getLoggedInUsername() {
+        WebElement username = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(usernameLabel)
+        );
+        return username.getText();
     }
 }
