@@ -1,9 +1,11 @@
 package tests;
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
-import static org.junit.Assert.*;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
+
 import static org.hamcrest.CoreMatchers.is;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,22 +18,22 @@ import utils.CookieHelper;
 import java.time.Duration;
 import java.util.*;
 
-public class CheckingRateTest {
+class CheckingRateTest {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
-  @Before
+  @BeforeEach
   public void setUp() {
     driver = new FirefoxDriver();
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
   }
-  @After
+  @AfterEach
   public void tearDown() {
     driver.quit();
   }
   @Test
-  public void checkingRateTest() throws InterruptedException {
+  void checkingRateTest() throws InterruptedException {
     driver.get("https://worldoftanks.eu/ru/");
       driver.manage().window().setSize(new Dimension(1267, 842));
       WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -65,6 +67,6 @@ public class CheckingRateTest {
       driver.findElement(By.xpath("//a[contains(text(),\'Рейтинги\')]")).click();
       Thread.sleep(3000);
 
-      assertThat(driver.findElement(By.xpath("(//a[contains(@href, \'#\')])[22]")).getText(), is("СКРЫТЬ МОИ РЕЗУЛЬТАТЫ"));
+      MatcherAssert.assertThat(driver.findElement(By.xpath("(//a[contains(@href, \'#\')])[22]")).getText(), is("СКРЫТЬ МОИ РЕЗУЛЬТАТЫ"));
   }
 }

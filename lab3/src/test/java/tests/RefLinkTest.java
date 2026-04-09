@@ -1,9 +1,11 @@
 package tests;
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
-import static org.junit.Assert.*;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
+
 import static org.hamcrest.CoreMatchers.is;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -18,22 +20,22 @@ import utils.CookieHelper;
 import java.time.Duration;
 import java.util.*;
 
-public class RefLinkTest {
+class RefLinkTest {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
-  @Before
+  @BeforeEach
   public void setUp() {
     driver = new FirefoxDriver();
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
   }
-  @After
+  @AfterEach
   public void tearDown() {
     driver.quit();
   }
   @Test
-  public void refLinkTest() throws InterruptedException {
+  void refLinkTest() throws InterruptedException {
     driver.get("https://worldoftanks.eu/ru/");
       driver.manage().window().setSize(new Dimension(1267, 842));
       WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -72,6 +74,6 @@ public class RefLinkTest {
     driver.findElement(By.xpath("//a[contains(text(),\'Пригласить друга\')]")).click();
       Thread.sleep(3000);
     js.executeScript("window.scrollBy(0,600)");
-    assertThat(driver.findElement(By.xpath("//section[@id=\'practice\']/div[2]/div/div/div[3]/div/div/div[2]/div/div[3]")).getText(), is("Минимальное количество боёв, которое должно быть у командира для доступа к отправке реферальных ссылок: 600."));
+    MatcherAssert.assertThat(driver.findElement(By.xpath("//section[@id=\'practice\']/div[2]/div/div/div[3]/div/div/div[2]/div/div[3]")).getText(), is("Минимальное количество боёв, которое должно быть у командира для доступа к отправке реферальных ссылок: 600."));
   }
 }

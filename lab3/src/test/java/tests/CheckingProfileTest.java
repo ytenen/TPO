@@ -1,9 +1,11 @@
 package tests;
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
-import static org.junit.Assert.*;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
+
 import static org.hamcrest.CoreMatchers.is;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,22 +18,22 @@ import utils.CookieHelper;
 import java.time.Duration;
 import java.util.*;
 
-public class CheckingProfileTest {
+class CheckingProfileTest {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
-  @Before
+  @BeforeEach
   public void setUp() {
     driver = new FirefoxDriver();
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
   }
-  @After
+  @AfterEach
   public void tearDown() {
     driver.quit();
   }
   @Test
-  public void checkingProfileTest() throws InterruptedException {
+  void checkingProfileTest() throws InterruptedException {
     driver.get("https://worldoftanks.eu/ru/");
     driver.manage().window().setSize(new Dimension(1267, 842));
       WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -63,6 +65,6 @@ public class CheckingProfileTest {
     Thread.sleep(3000);
     driver.findElement(By.xpath("//div[4]/ul/li/a/span")).click();
     Thread.sleep(3000);
-    assertThat(driver.findElement(By.xpath("//h1/span")).getText(), is("ЛИЧНЫЙ КАБИНЕТ"));
+    MatcherAssert.assertThat(driver.findElement(By.xpath("//h1/span")).getText(), is("ЛИЧНЫЙ КАБИНЕТ"));
   }
 }

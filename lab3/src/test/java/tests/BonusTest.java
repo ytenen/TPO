@@ -1,8 +1,9 @@
 package tests;
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
-import static org.junit.Assert.*;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+
 import static org.hamcrest.CoreMatchers.is;
 
 import org.openqa.selenium.*;
@@ -15,11 +16,11 @@ import utils.CookieHelper;
 import java.time.Duration;
 import java.util.*;
 
-public class BonusTest {
+class BonusTest {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
-  @Before
+  @BeforeEach
   public void setUp() {
     driver = new FirefoxDriver();
     js = (JavascriptExecutor) driver;
@@ -27,12 +28,12 @@ public class BonusTest {
   }
 
 
-  @After
+  @AfterEach
   public void tearDown() {
     driver.quit();
   }
     @Test
-    public void bonusTest() throws InterruptedException {
+    void bonusTest() throws InterruptedException {
         driver.get("https://worldoftanks.eu/ru/");
         driver.manage().window().setSize(new Dimension(1267, 842));
         LoginPage loginPage = new LoginPage(driver);
@@ -55,6 +56,6 @@ public class BonusTest {
         loginPage.fillPassword("Qfc12erty");
         loginPage.submit();
         WebElement title = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='app']/div/div/div/h1")));
-        assertThat(title.getText(), is("АКТИВИРОВАТЬ КОД WARGAMING"));
+        MatcherAssert.assertThat(title.getText(), is("АКТИВИРОВАТЬ КОД WARGAMING"));
     }
 }
