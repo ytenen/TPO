@@ -72,8 +72,9 @@ class RefLinkTest {
     driver.findElement(By.xpath("//div[2]/div/ul/li[6]/div/div[2]")).click();
       Thread.sleep(3000);
     driver.findElement(By.xpath("//a[contains(text(),\'Пригласить друга\')]")).click();
-      Thread.sleep(3000);
-    js.executeScript("window.scrollBy(0,600)");
+
+    js.executeScript("window.scrollBy(0,800)");
+    Thread.sleep(3000);
     MatcherAssert.assertThat(driver.findElement(By.xpath("//section[@id=\'practice\']/div[2]/div/div/div[3]/div/div/div[2]/div/div[3]")).getText(), is("Минимальное количество боёв, которое должно быть у командира для доступа к отправке реферальных ссылок: 600."));
   }
 }
