@@ -1,4 +1,5 @@
 package tests;
+
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
@@ -6,67 +7,105 @@ import static org.hamcrest.CoreMatchers.is;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.Dimension;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.JavascriptExecutor;
 import pages.LoginPage;
 import utils.CookieHelper;
+import utils.ScrollHelper;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 class CheckingRateTest {
-  private WebDriver driver;
-  private Map<String, Object> vars;
-  JavascriptExecutor js;
-  @BeforeEach
-  public void setUp() {
-    driver = new FirefoxDriver();
-    js = (JavascriptExecutor) driver;
-    vars = new HashMap<String, Object>();
-  }
-  @AfterEach
-  public void tearDown() {
-    driver.quit();
-  }
-  @Test
-  void checkingRateTest() throws InterruptedException {
-    driver.get("https://worldoftanks.eu/ru/");
-      driver.manage().window().setSize(new Dimension(1267, 842));
-      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-      CookieHelper.acceptCookies(driver, wait);
+    private WebDriver driver;
+    private Map<String, Object> vars;
+    JavascriptExecutor js;
+    private WebDriverWait wait;
 
-      js.executeScript("window.scrollBy(0,900)");
-      Thread.sleep(3000);
-      js.executeScript("window.scrollTo(0,0)");
-      Thread.sleep(3000);
+    @BeforeEach
+    public void setUp() {
+        driver = new FirefoxDriver();
+        js = (JavascriptExecutor) driver;
+        vars = new HashMap<>();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    }
 
-      driver.findElement(By.xpath("//a[contains(text(),'Войти')]")).click();
+    @AfterEach
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 
-      String originalWindow = driver.getWindowHandle();
+    @Test
+    void checkingRateTest() {
+        driver.get("https://worldoftanks.eu/ru/");
+        driver.manage().window().setSize(new Dimension(1267, 842));
 
-      for (String windowHandle : driver.getWindowHandles()) {
-          if (!windowHandle.equals(originalWindow)) {
-              driver.switchTo().window(windowHandle);
-              break;
-          }
-      }
+        CookieHelper.acceptCookies(driver, wait);
+        ScrollHelper.scrollToNews(driver, wait);
 
-      LoginPage loginPage = new LoginPage(driver);
-      loginPage.acceptCookies();
-      loginPage.fillEmail("rosh.28@mail.ru");
-      loginPage.fillPassword("Qfc12erty");
-      loginPage.submit();
-      Thread.sleep(3000);
-    driver.findElement(By.xpath("//div[2]/div/ul/li[2]/div/div[2]")).click();
-      Thread.sleep(3000);
+        String originalWindow = driver.getWindowHandle();
+        By loginInput = By.xpath("//input[@name='login']");
 
-      driver.findElement(By.xpath("//a[contains(text(),\'Рейтинги\')]")).click();
-      Thread.sleep(3000);
+        WebElement loginBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[contains(text(),'Войти')]")
+        ));
+        js.executeScript("arguments[0].click();", loginBtn);
 
-      MatcherAssert.assertThat(driver.findElement(By.xpath("(//a[contains(@href, \'#\')])[22]")).getText(), is("СКРЫТЬ МОИ РЕЗУЛЬТАТЫ"));
-  }
+        wait.until(driver ->
+                driver.getWindowHandles().size() > 1
+                        || driver.getCurrentUrl().contains("/auth/")
+                        || !driver.findElements(loginInput).isEmpty()
+        );
+
+        if (driver.getWindowHandles().size() > 1) {
+            for (String windowHandle : driver.getWindowHandles()) {
+                if (!windowHandle.equals(originalWindow)) {
+                    driver.switchTo().window(windowHandle);
+                    break;
+                }
+            }
+        }
+
+        wait.until(driver -> Objects.equals(
+                ((JavascriptExecutor) driver).executeScript("return document.readyState"),
+                "complete"
+        ));
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginInput));
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.acceptCookies();
+        loginPage.fillEmail("rosh.28@mail.ru");
+        loginPage.fillPassword("Qfc12erty");
+        loginPage.submit();
+
+        By profileArrow = By.xpath("//div[2]/div/ul/li[2]/div/div[2]");
+        By ratingsLink = By.xpath("//a[contains(text(),'Рейтинги')]");
+
+        WebElement arrow = wait.until(ExpectedConditions.visibilityOfElementLocated(profileArrow));
+
+        new Actions(driver)
+                .moveToElement(arrow)
+                .pause(Duration.ofMillis(500))
+                .click()
+                .pause(Duration.ofMillis(300))
+                .perform();
+
+        WebElement ratings = wait.until(ExpectedConditions.visibilityOfElementLocated(ratingsLink));
+        js.executeScript("arguments[0].click();", ratings);
+
+        MatcherAssert.assertThat(
+                wait.until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("(//a[contains(@href, '#')])[22]")
+                )).getText(),
+                is("СКРЫТЬ МОИ РЕЗУЛЬТАТЫ")
+        );
+    }
 }

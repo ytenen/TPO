@@ -1,0 +1,427 @@
+{
+  "id": "ed5783b5-dabe-4293-8008-3a607cb83da4",
+  "version": "2.0",
+  "name": "lab3",
+  "url": "https://worldoftanks.eu/ru/",
+  "tests": [{
+    "id": "1e103cf5-476e-4bb4-b4a5-ebd65fa7f1c9",
+    "name": "RefLinkTest",
+    "commands": [{
+      "id": "3ee9df5c-2084-4e88-8702-75efe2928aba",
+      "comment": "",
+      "command": "open",
+      "target": "https://worldoftanks.eu/ru/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3af83b4c-5e89-4920-8141-86223490a458",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "xpath=//div[@id='common_menu']/div/div/div[4]/a[2]/span",
+      "targets": [
+        ["css=.cm-singletons:nth-child(2) > .cm-singletons_text", "css:finder"],
+        ["xpath=//div[@id='common_menu']/div/div/div[4]/a[2]/span", "xpath:idRelative"],
+        ["xpath=//div[4]/a[2]/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "40b191e9-b7d6-451f-85fc-4969d17df2e9",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[2]/div/ul/li[6]/div/div[2]",
+      "targets": [
+        ["css=.js-mainmenu-item:nth-child(6) .nav-submenu_arrow", "css:finder"],
+        ["xpath=//div[2]/div/ul/li[6]/div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3edba94a-eaed-4fb7-9d48-58a7a480a303",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//a[contains(text(),'Пригласить друга')]",
+      "targets": [
+        ["linkText=Пригласить друга", "linkText"],
+        ["css=.nav-submenu_item__open .nav-detail_item:nth-child(3) > .nav-detail_link", "css:finder"],
+        ["xpath=//a[contains(text(),'Пригласить друга')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/content/docs/referral-program-regulations/')]", "xpath:href"],
+        ["xpath=//li[6]/div[2]/ul/li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Пригласить друга')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "578d3e8a-7bba-4bc2-98c5-024c3a5d3139",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollBy(0,600)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ef8bca63-18d6-43d1-b4a1-5797af1d5873",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//section[@id='practice']/div[2]/div/div/div[3]/div/div/div[2]/div/div[3]",
+      "targets": [
+        ["css=.referral-widget_attention-text__not-recruiter", "css:finder"],
+        ["xpath=//section[@id='practice']/div[2]/div/div/div[3]/div/div/div[2]/div/div[3]", "xpath:idRelative"],
+        ["xpath=//div[3]/div/div/div[2]/div/div[3]", "xpath:position"]
+      ],
+      "value": "Минимальное количество боёв, которое должно быть у командира для доступа к отправке реферальных ссылок: 600. "
+    }]
+  }, {
+    "id": "4e37f1a8-b2a7-481a-886b-359b3d62b128",
+    "name": "CheckingProfileTest",
+    "commands": [{
+      "id": "1a983d1a-9579-41a5-b164-d06f4dfbe648",
+      "comment": "",
+      "command": "open",
+      "target": "https://worldoftanks.eu/ru/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a1f73a19-61e0-47ec-abb5-ca488eb2fb66",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1333x842",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5b802f5c-19d1-48ae-b373-7463672120ea",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='common_menu']/div/div/div/a/div/span",
+      "targets": [
+        ["css=.cm-user-menu-link_hovered-text", "css:finder"],
+        ["xpath=//div[@id='common_menu']/div/div/div/a/div/span", "xpath:idRelative"],
+        ["xpath=//div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'nagibator67_dikiy')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "039a0c40-a74a-4f16-a3cd-bb41dd695eae",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[4]/ul/li/a/span",
+      "targets": [
+        ["css=.cm-cross-game_item:nth-child(1) .cm-singletons_text", "css:finder"],
+        ["xpath=//div[@id='cm1775765176113_user_menu']/div[4]/ul/li/a/span", "xpath:idRelative"],
+        ["xpath=//div[4]/ul/li/a/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Личный кабинет')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "71c83ffb-5586-445a-a4c4-1a802770319a",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//h1/span",
+      "targets": [
+        ["css=.b-header-loading", "css:finder"],
+        ["xpath=//h1/span", "xpath:position"]
+      ],
+      "value": "ЛИЧНЫЙ КАБИНЕТ"
+    }]
+  }, {
+    "id": "c68f60af-d20c-4263-b647-636c0db1b214",
+    "name": "CheckingRateTest",
+    "commands": [{
+      "id": "5ef8c04f-1b3b-479d-b79d-bdfa924e66c3",
+      "comment": "",
+      "command": "open",
+      "target": "https://worldoftanks.eu/ru/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "96dc26c4-388f-4ee7-b829-374bfe310655",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1253x842",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2dae8153-e038-4d60-a5ab-35982b7131b5",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[2]/div/ul/li[2]/div/div[2]",
+      "targets": [
+        ["css=.js-mainmenu-item:nth-child(2) .nav-submenu_arrow", "css:finder"],
+        ["xpath=//div[2]/div/ul/li[2]/div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0db98737-8228-487f-8336-5e19b4779f65",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//a[contains(text(),'Рейтинги')]",
+      "targets": [
+        ["linkText=Рейтинги", "linkText"],
+        ["css=.nav-submenu_item__open .nav-detail_item:nth-child(4) > .nav-detail_link", "css:finder"],
+        ["xpath=//a[contains(text(),'Рейтинги')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/ru/ratings/')]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[4]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b4191aaa-4408-40e5-92c5-703fb7943eae",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=(//a[contains(@href, '#')])[22]",
+      "targets": [
+        ["css=.link-more:nth-child(2)", "css:finder"],
+        ["xpath=(//a[contains(@href, '#')])[22]", "xpath:href"],
+        ["xpath=//section/div/a", "xpath:position"]
+      ],
+      "value": "СКРЫТЬ МОИ РЕЗУЛЬТАТЫ"
+    }]
+  }, {
+    "id": "9ee060c8-89d4-4bea-8402-80b7cbe55cd3",
+    "name": "BonusTest",
+    "commands": [{
+      "id": "a81747da-bee7-4f41-b07e-a41debfbebe5",
+      "comment": "",
+      "command": "open",
+      "target": "https://worldoftanks.eu/ru/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "81775e15-2989-4ecb-a0fb-9fc32a6915e7",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1267x842",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b62148e9-5072-4f45-9b35-007247f4a465",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[2]/div/ul/li[2]/div/div[2]",
+      "targets": [
+        ["css=.js-mainmenu-item:nth-child(2) .nav-submenu_arrow", "css:finder"],
+        ["xpath=//div[2]/div/ul/li[2]/div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "dc1f7513-25f5-4958-88c8-e4e37593100c",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//a[contains(text(),'Активировать бонус-код')]",
+      "targets": [
+        ["linkText=Активировать бонус-код", "linkText"],
+        ["css=.nav-submenu_item__open .nav-detail_item:nth-child(2) > .nav-detail_link", "css:finder"],
+        ["xpath=//a[contains(text(),'Активировать бонус-код')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'https://eu.wargaming.net/shop/redeem/?utm_content=bonus-code&link_place=wotp_link_main-menu&_gl=1*1o3mhio*_gcl_au*MTU4NDY5MzQ2NC4xNzc1NzI1NzI2*_ga*NzYwMDg0OTk3LjE3NzU3MjU3MjY.*_ga_BWRKLL4HR5*czE3NzU3NTc1OTMkbzIkZzEkdDE3NzU3NjM5ODEkajM0JGwwJGgw')]", "xpath:href"],
+        ["xpath=//div[2]/ul/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Активировать бонус-код')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a00b3737-d5f4-47d0-92f3-eab09003d696",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//div[@id='app']/div/div/div/h1",
+      "targets": [
+        ["css=.redeem-page_title", "css:finder"],
+        ["xpath=//div[@id='app']/div/div/div/h1", "xpath:idRelative"],
+        ["xpath=//div[4]/div/div/div/div/h1", "xpath:position"]
+      ],
+      "value": "АКТИВИРОВАТЬ КОД WARGAMING"
+    }]
+  }, {
+    "id": "5899c375-fd22-41ad-8040-a648722979af",
+    "name": "LogOutTest",
+    "commands": [{
+      "id": "3e473ca2-ee26-4e87-84f8-0341709a9327",
+      "comment": "",
+      "command": "open",
+      "target": "https://worldoftanks.eu/ru/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ff1f5ad1-d0f0-4a29-9916-d7d246d05d52",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1191x842",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "53a28ab4-e95c-476f-9d1d-e86b2e1881e5",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='common_menu']/div/div/div/a/div",
+      "targets": [
+        ["css=.cm-user-menu-link_current-account", "css:finder"],
+        ["xpath=//div[@id='common_menu']/div/div/div/a/div", "xpath:idRelative"],
+        ["xpath=//a/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b1c1d001-99fe-408c-9039-152821345426",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//a[contains(text(),'Выйти')]",
+      "targets": [
+        ["linkText=Выйти", "linkText"],
+        ["css=.cm-footer-logout_link", "css:finder"],
+        ["xpath=//a[contains(text(),'Выйти')]", "xpath:link"],
+        ["xpath=//div[@id='cm1775764099318_user_menu']/div[4]/div/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '?utm_source=global-nav&utm_medium=link&utm_campaign=wot-portal#')]", "xpath:href"],
+        ["xpath=//div[4]/div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Выйти')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "87efa168-27d7-4c0c-8f51-e76ae242ce85",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//a[contains(text(),'Войти')]",
+      "targets": [
+        ["linkText=Войти", "linkText"],
+        ["css=.cm-link__register:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Войти')]", "xpath:link"],
+        ["xpath=//div[@id='common_menu']/div/div/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/auth/oid/new/?next=/ru/')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'Войти')]", "xpath:innerText"]
+      ],
+      "value": "Войти"
+    }]
+  }, {
+    "id": "c89f20fe-ebc3-4d80-b21c-4d82027d8a97",
+    "name": "LogInTest",
+    "commands": [{
+      "id": "78fe2dea-4a2b-4a06-8f3f-46ea19fad0b8",
+      "comment": "",
+      "command": "open",
+      "target": "https://worldoftanks.eu/ru/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "977516fc-2de8-4c3d-9799-eff00d073d25",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1030x842",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "85a330f4-a411-48a7-a796-196de90c5934",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//a[contains(text(),'Войти')]",
+      "targets": [
+        ["linkText=Войти", "linkText"],
+        ["css=.cm-link__register:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Войти')]", "xpath:link"],
+        ["xpath=//div[@id='common_menu']/div/div/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/auth/oid/new/?next=/ru/')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'Войти')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d2c1f06c-f130-4107-847f-43905ac7d941",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "xpath=//a[contains(text(),'wargaming.net')]",
+      "targets": [
+        ["linkText=wargaming.net", "linkText"],
+        ["css=.logo-airy", "css:finder"],
+        ["xpath=//a[contains(text(),'wargaming.net')]", "xpath:link"],
+        ["xpath=//div[@id='vueapp']/div/header/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'wargaming.net')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e3920717-0574-4a94-8d91-a8b294396671",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "xpath=//a[contains(text(),'wargaming.net')]",
+      "targets": [
+        ["linkText=wargaming.net", "linkText"],
+        ["css=.logo-airy", "css:finder"],
+        ["xpath=//a[contains(text(),'wargaming.net')]", "xpath:link"],
+        ["xpath=//div[@id='vueapp']/div/header/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'wargaming.net')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "16a2af45-2758-4408-abf3-48b53a732fa9",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='layout_airy_wrapper_id']/div/div/form/div/fieldset/div/input",
+      "targets": [
+        ["id=input_email_login", "id"],
+        ["name=login", "name"],
+        ["css=#input_email_login", "css:finder"],
+        ["xpath=//input[@id='input_email_login']", "xpath:attributes"],
+        ["xpath=//div[@id='layout_airy_wrapper_id']/div/div/form/div/fieldset/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8c7a7e51-fb61-4253-8de2-fc27627e808a",
+      "comment": "",
+      "command": "executeScript",
+      "target": "var e=document.getElementById('input_email_login'); e.value='rosh.28@mail.ru'; e.dispatchEvent(new Event('input',{bubbles:true})); e.dispatchEvent(new Event('change',{bubbles:true}));",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d6c29dfb-2abe-43bd-b9d6-bef0cc3fa58d",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='layout_airy_wrapper_id']/div/div/form/div/fieldset[2]/div/input",
+      "targets": [
+        ["id=input_password_password", "id"],
+        ["name=password", "name"],
+        ["css=#input_password_password", "css:finder"],
+        ["xpath=//input[@id='input_password_password']", "xpath:attributes"],
+        ["xpath=//div[@id='layout_airy_wrapper_id']/div/div/form/div/fieldset[2]/div/input", "xpath:idRelative"],
+        ["xpath=//fieldset[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "baef4ae3-35e1-4ee9-913c-b5fbdaf1c7b5",
+      "comment": "",
+      "command": "executeScript",
+      "target": "var p=document.getElementById('input_password_password'); p.value='Qfc12erty'; p.dispatchEvent(new Event('input',{bubbles:true})); p.dispatchEvent(new Event('change',{bubbles:true}));",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1401cc7e-9501-4da7-b176-ea4ad2362445",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='layout_airy_wrapper_id']/div/div/form/div/fieldset[3]/button",
+      "targets": [
+        ["css=.antique-button", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='layout_airy_wrapper_id']/div/div/form/div/fieldset[3]/button", "xpath:idRelative"],
+        ["xpath=//fieldset[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Войти')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fb558e10-65b8-4806-a5b6-98937b3eb871",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//div[@id='common_menu']/div/div/div/a/div/span",
+      "targets": [
+        ["css=.cm-user-menu-link_hovered-text", "css:finder"],
+        ["xpath=//div[@id='common_menu']/div/div/div/a/div/span", "xpath:idRelative"],
+        ["xpath=//a/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'nagibator67_dikiy')]", "xpath:innerText"]
+      ],
+      "value": "nagibator67_dikiy"
+    }]
+  }],
+  "suites": [{
+    "id": "c090b74a-0420-474e-8444-11e440986467",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["1e103cf5-476e-4bb4-b4a5-ebd65fa7f1c9"]
+  }],
+  "urls": ["https://worldoftanks.eu/ru/"],
+  "plugins": []
+}

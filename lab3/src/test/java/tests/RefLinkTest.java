@@ -62,19 +62,46 @@ class RefLinkTest {
       loginPage.fillEmail("rosh.28@mail.ru");
       loginPage.fillPassword("Qfc12erty");
       loginPage.submit();
-      Thread.sleep(3000);
-    {
-      WebElement element = driver.findElement(By.xpath("//div[@id=\'common_menu\']/div/div/div[4]/a[2]/span"));
-      Actions builder = new Actions(driver);
-      builder.moveToElement(element).perform();
-    }
-      Thread.sleep(3000);
-    driver.findElement(By.xpath("//div[2]/div/ul/li[6]/div/div[2]")).click();
-      Thread.sleep(3000);
-    driver.findElement(By.xpath("//a[contains(text(),\'Пригласить друга\')]")).click();
+      loginPage.submit();
 
-    js.executeScript("window.scrollBy(0,800)");
-    Thread.sleep(3000);
-    MatcherAssert.assertThat(driver.findElement(By.xpath("//section[@id=\'practice\']/div[2]/div/div/div[3]/div/div/div[2]/div/div[3]")).getText(), is("Минимальное количество боёв, которое должно быть у командира для доступа к отправке реферальных ссылок: 600."));
+      WebDriverWait waitAfterLogin = new WebDriverWait(driver, Duration.ofSeconds(15));
+
+      WebElement refIcon = waitAfterLogin.until(
+              d -> d.findElement(By.xpath("//div[@id='common_menu']/div/div/div[4]/a[2]/span"))
+      );
+
+      Actions builder = new Actions(driver);
+      builder.moveToElement(refIcon).pause(Duration.ofMillis(500)).perform();
+
+      WebElement arrow = waitAfterLogin.until(
+              d -> d.findElement(By.xpath("//div[2]/div/ul/li[6]/div/div[2]"))
+      );
+
+      builder.moveToElement(arrow)
+              .pause(Duration.ofMillis(300))
+              .click()
+              .pause(Duration.ofMillis(300))
+              .perform();
+
+      WebElement inviteLink = waitAfterLogin.until(
+              d -> d.findElement(By.xpath("//a[contains(text(),'Пригласить друга')]"))
+      );
+
+      js.executeScript("arguments[0].click();", inviteLink);
+
+      By textLocator = By.xpath("//section[@id='practice']/div[2]/div/div/div[3]/div/div/div[2]/div/div[3]");
+
+      WebElement textBlock = waitAfterLogin.until(
+              d -> d.findElement(textLocator)
+      );
+
+      js.executeScript("arguments[0].scrollIntoView({block:'center'});", textBlock);
+
+      waitAfterLogin.until(d -> !textBlock.getText().isEmpty());
+
+      MatcherAssert.assertThat(
+              textBlock.getText(),
+              is("Минимальное количество боёв, которое должно быть у командира для доступа к отправке реферальных ссылок: 600.")
+      );
   }
 }
