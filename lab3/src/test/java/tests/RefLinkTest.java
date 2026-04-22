@@ -89,18 +89,21 @@ class RefLinkTest {
 
       js.executeScript("arguments[0].click();", inviteLink);
 
-      By textLocator = By.xpath("//section[@id='practice']/div[2]/div/div/div[3]/div/div/div[2]/div/div[3]");
-
-      WebElement textBlock = waitAfterLogin.until(
-              d -> d.findElement(textLocator)
+      waitAfterLogin.until(d ->
+              "complete".equals(((JavascriptExecutor) d).executeScript("return document.readyState"))
       );
 
-      js.executeScript("arguments[0].scrollIntoView({block:'center'});", textBlock);
+      By textLocator = By.xpath("//section[@id='practice']/div[2]/div/div/div[3]/div/div/div[2]/div/div[3]");
 
-      waitAfterLogin.until(d -> !textBlock.getText().isEmpty());
+      WebElement textBlock = waitAfterLogin.until(d -> d.findElement(textLocator));
+
+      js.executeScript("arguments[0].scrollIntoView({block:'center'});", textBlock);
+      js.executeScript("window.scrollBy(0, -200)");
+
+      waitAfterLogin.until(d -> !d.findElement(textLocator).getText().isEmpty());
 
       MatcherAssert.assertThat(
-              textBlock.getText(),
+              driver.findElement(textLocator).getText(),
               is("Минимальное количество боёв, которое должно быть у командира для доступа к отправке реферальных ссылок: 600.")
       );
   }
