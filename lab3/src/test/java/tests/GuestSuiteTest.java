@@ -101,7 +101,7 @@ public class GuestSuiteTest {
 
     WebDriverWait extendedWait = new WebDriverWait(driver, Duration.ofSeconds(5));
     WebElement heading = extendedWait.until(
-            ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h1, .layout_airy_wrapper_id h1, #layout_airy_wrapper_id h1")));
+            ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='layout_airy_wrapper_id']/h1")));
 
     String headingText = heading.getText();
     assertTrue(headingText.contains("ВХОД") || headingText.contains("вход"),
