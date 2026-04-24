@@ -1,16 +1,17 @@
 package tests;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
@@ -44,7 +45,7 @@ public class GuestSuiteTest {
 
   private void sleep(){
       try {
-          Thread.sleep(3000);
+          Thread.sleep(1000);
       } catch (InterruptedException e) {
           throw new RuntimeException(e);
       }
@@ -193,5 +194,48 @@ public class GuestSuiteTest {
     js.executeScript("arguments[0].scrollIntoView(true);", download);
     download.click();
     assertEquals("СКАЧАТЬ", wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[2]/a[2]/span"))).getText());
+  }
+
+  @Test
+  public void friendFinding() throws InterruptedException {
+    driver.get("https://worldoftanks.eu/ru/");
+    acceptCookiesV2();
+    closePromoBanner();
+    driver.manage().window().setSize(new Dimension(1430, 837));
+
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+    wait.until(ExpectedConditions.jsReturnsValue("return document.readyState === 'complete'"));
+
+    js.executeScript("window.scrollTo(0, 1000)");
+    sleep();
+    js.executeScript("window.scrollTo(0, 0)");
+
+    WebElement menuItem = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[2]/div/ul/li[6]/div/div[2]")));
+    Actions actions = new Actions(driver);
+    actions.moveToElement(menuItem).perform();
+    menuItem.click();
+
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Поиск игроков')]"))).click();
+
+    WebElement searchInput = wait.until(ExpectedConditions.elementToBeClickable(By.id("account_table_search")));
+
+    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+    jsExecutor.executeScript("arguments[0].click();", searchInput);
+    jsExecutor.executeScript("arguments[0].value = '';", searchInput);
+    jsExecutor.executeScript("arguments[0].value = arguments[1];", searchInput, "kbshka_kormit"); // установка значения
+    jsExecutor.executeScript("arguments[0].dispatchEvent(new Event('input', { bubbles: true }));", searchInput); // триггерим событие input
+    jsExecutor.executeScript("arguments[0].dispatchEvent(new Event('change', { bubbles: true }));", searchInput); // триггерим событие change
+
+    sleep();
+
+    searchInput.sendKeys(Keys.ENTER);
+
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, '/ru/community/accounts/725955610-kbshka_kormit/')]")));
+
+    driver.findElement(By.xpath("//a[contains(@href, '/ru/community/accounts/725955610-kbshka_kormit/')]")).click();
+
+    WebElement resultElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//section[2]/div[2]/div/div/div/div")));
+    MatcherAssert.assertThat(resultElement.getText(), is("kbshka_kormit"));
   }
 }
